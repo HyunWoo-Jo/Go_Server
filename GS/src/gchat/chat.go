@@ -1,36 +1,20 @@
 package gchat
 
 import (
+	"NetMessage"
 	"fmt"
 	"net"
 )
 
-func Request(c net.Conn) {
-	data := make([]byte, 4096)
-
-	for {
-		n, err := c.Read(data)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		fmt.Println(string(data[:n]))
-		c.Write(data[:n])
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-	}
-}
-
-func Connect() {
+func Accept() {
 	ln, err := net.Listen("tcp", ":7000")
+	fmt.Println("Start")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	defer ln.Close()
 
+	defer ln.Close()
 	for {
 		conn, err := ln.Accept()
 		if err != nil {
@@ -38,6 +22,17 @@ func Connect() {
 			continue
 		}
 		defer conn.Close()
-		go Request(conn)
+		go NetMessage.ReadMessage(conn)
+		go NetMessage.OnKernel()
+		select {
+		case re := <-NetMessage.Msg:
+			msg := re[0] + ": " + re[1]
+			BroadcastMsg(conn, msg)
+		}
 	}
+	fmt.Println("서버 종료")
+}
+
+func BroadcastMsg(conn net.Conn, msg string) {
+	NetMessage.SendMessage(conn, msg)
 }

@@ -4,38 +4,48 @@ using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.IO;
+using System;
+
 
 public class Chat : MonoBehaviour
 {
-    string ipAdress = "220.116.106.202";
-    int port = 7000;
-    TcpClient tcp;
+    NetConnect nc;
 
-    // Start is called before the first frame update
     void Start()
     {
-        ConnectServer();
-        SendMsg("Hello");
+        nc = this.GetComponent<NetConnect>();
+        SendMsg("41234:msg:Hello");      
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (!nc.isConnectServer) return;
+        RequestMsg();
     }
 
-    void ConnectServer() {
-        tcp = new TcpClient(ipAdress, port);
-        Debug.Log("Connect");
-    } 
-
     void SendMsg(string msg) {
+       
         byte[] buff = Encoding.ASCII.GetBytes(msg);
-        NetworkStream stream = tcp.GetStream();
-        stream.Write(buff, 0, buff.Length);
+   
+        nc.stream.Write(buff, 0, buff.Length);
         Debug.Log("Stream");
+    }
 
-        stream.Close();
+    void RequestMsg() {
+        try {
+            if (!nc.stream.DataAvailable) return;
+            byte[] buff = new byte[4096];
+            int nbytes;
+            if ((nbytes = nc.stream.Read(buff, 0, 4096)) > 0) {
+                string msg = Encoding.ASCII.GetString(buff);
+                Debug.Log(msg);
+            }
+        } catch(Exception e) {
+            Debug.Log(e);
+        }
+        
     }
 
 }

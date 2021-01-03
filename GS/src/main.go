@@ -1,9 +1,7 @@
 package main
 
-import (
-	"gchat"
-)
+import "gchat"
 
 func main() {
-	gchat.Connect()
+	gchat.Accept()
 }
