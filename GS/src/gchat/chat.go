@@ -25,8 +25,7 @@ func Accept() {
 		go NetMessage.ReadMessage(conn)
 		go NetMessage.OnKernel()
 		select {
-		case re := <-NetMessage.Msg:
-			msg := re[0] + ": " + re[1]
+		case msg := <-NetMessage.Msg:
 			BroadcastMsg(conn, msg)
 		}
 	}

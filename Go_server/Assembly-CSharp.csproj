@@ -54,7 +54,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Net\Chat.cs" />
-    <Compile Include="Assets\NetConnect.cs" />
+    <Compile Include="Assets\Net\NetConnect.cs" />
+    <Compile Include="Assets\Net\NetKernel.cs" />
+    <Compile Include="Assets\Net\NetMessage.cs" />
+    <Compile Include="Assets\Net\interface\INET_SEND.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

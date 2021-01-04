@@ -1,7 +1,7 @@
 package NetMessage
 
 var (
-	Msg = make(chan []string)
+	Msg = make(chan string)
 )
 
 func OnKernel() {
@@ -11,7 +11,7 @@ func OnKernel() {
 			s := Decoposit(str)
 			switch s[1] {
 			case "msg":
-				Msg <- s
+				Msg <- str
 				break
 			}
 			break
