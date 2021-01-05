@@ -8,12 +8,12 @@ using System;
 
 public class NetConnect : MonoBehaviour
 {
+    public static bool IS_ConnectServer = false;
     [HideInInspector]
     public TcpClient tcpClient;
     [HideInInspector]
     public NetworkStream stream;
-    [HideInInspector]
-    public bool isConnectServer = false;
+
 
     [HideInInspector]
     public string ip = "220.116.106.202";
@@ -29,12 +29,12 @@ public class NetConnect : MonoBehaviour
             tcpClient = new TcpClient(ip, port);
             stream = tcpClient.GetStream();
             Debug.Log("Connect");
-            isConnectServer = true;
+            NetConnect.IS_ConnectServer = true;
         } catch (Exception e) {
             Debug.Log(e);
-            isConnectServer = false;
+            NetConnect.IS_ConnectServer = false;
         }
-        return isConnectServer;
+        return NetConnect.IS_ConnectServer;
     }
     
     

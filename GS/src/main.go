@@ -1,7 +1,9 @@
 package main
 
-import "gchat"
+import (
+	"gserver"
+)
 
 func main() {
-	gchat.Accept()
+	gserver.OnServer()
 }

@@ -1,49 +1,45 @@
 package gserver
 
 import (
+	"fmt"
+	"gserver/netMessage"
 	"net"
-	"sync"
+	"strconv"
 )
 
 type GSocket struct {
 	id   int
-	port int
 	name string
 	conn net.Conn
 }
 
-var MainChannel = struct {
+type MainChannel struct {
 	users     map[int]GSocket
 	userCount int
-	sync.Mutex
-}{users: make(map[int]GSocket)}
-
-var (
-	connect   = make(chan (chan<- GSocket))
-	unconnect = make(chan (<-chan GSocket))
-)
-
-func Connect(user chan GSocket) GSocket {
-	connect <- user
-	return <-user
 }
 
-func Unconnect(user chan GSocket) {
-	unconnect <- user
+var (
+	Mchannel = MainChannel{}
+)
+
+func Subscribe(str string, conn net.Conn) {
+
+	strs := netMessage.Decoposit(str)
+	socket := GSocket{}
+	socket.id, _ = strconv.Atoi(strs[0])
+	socket.name = strs[1]
+	socket.conn = conn
+	Mchannel.users[socket.id] = socket
+	fmt.Println("구독 완료")
 }
 
 func OnChannel() {
+	Mchannel.users = make(map[int]GSocket)
+	fmt.Println("Channel On")
 	for {
 		select {
-		case con := <-connect:
-			MainChannel.Lock()
-			for id, user := range MainChannel.users {
-				user.conn.Write()
-			}
-			MainChannel.Unlock()
-			break
-		case uncon := <-unconnect:
-
+		case sub := <-netMessage.Sub:
+			Subscribe(sub.Msg, sub.Conn)
 			break
 		}
 	}

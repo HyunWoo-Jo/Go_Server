@@ -11,16 +11,19 @@ using System;
 public class Chat : MonoBehaviour
 {
     INET_SEND netMessage;
-    string id = "¾È³ç";
 
-    void Start()
-    {
+
+    IEnumerator Start() {
         netMessage = this.GetComponent<INET_SEND>();
-        SendMsg("Hello");      
+        yield return new WaitForSeconds(3f);
+        SendMsg("Hello");
     }
 
+    
+
+
     void SendMsg(string msg) {
-        netMessage.Send(id + ":msg:" + msg);
+        netMessage.Send(NetSubscribe.id + ":msg:" + msg);
     }
 
     void RequestMsg(string str) {
