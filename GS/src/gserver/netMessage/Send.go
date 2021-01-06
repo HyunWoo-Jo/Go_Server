@@ -6,6 +6,10 @@ import (
 )
 
 func SendMessage(userConn net.Conn, message string) {
+
 	fmt.Println("send : ", message)
-	userConn.Write([]byte(message))
+	_, err := userConn.Write([]byte(message))
+	if err != nil {
+		fmt.Println("send err ", err)
+	}
 }

@@ -6,12 +6,12 @@ import (
 )
 
 var (
-	Msg = make(chan string)
-	Sub = make(chan SubEvent)
-	Con = make(chan net.Conn)
+	Msg    = make(chan MsgEvent)
+	Sub    = make(chan MsgEvent)
+	Cancel = make(chan MsgEvent)
 )
 
-type SubEvent struct {
+type MsgEvent struct {
 	Msg  string
 	Conn net.Conn
 }
@@ -20,19 +20,20 @@ func OnKernel() {
 	fmt.Println("Kernel On")
 	for {
 		select {
-		case str := <-read:
-			conn := <-Con
-			s := Decoposit(str)
+		case msg := <-read:
+			s := Decoposit(msg.Msg)
 			switch s[1] {
 			case "msg":
-				Msg <- str
+				Msg <- msg
 				break
 			case "sub":
-				sub := SubEvent{str, conn}
-				Sub <- sub
+				Sub <- msg
+				break
+			case "cancel":
+				fmt.Println("Cancel")
+				Cancel <- msg
 				break
 			}
-
 			break
 		}
 	}

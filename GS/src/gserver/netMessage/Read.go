@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	read = make(chan string)
+	read = make(chan MsgEvent)
 )
 
 func ReadMessage(userConn net.Conn) {
@@ -14,11 +14,13 @@ func ReadMessage(userConn net.Conn) {
 		data := make([]byte, 4096)
 		message, err := userConn.Read(data)
 		if err != nil {
-			println(err)
+			fmt.Println("Read Err", err)
+			cancel := MsgEvent{"err:cancel", userConn}
+			read <- cancel
 			return
 		}
 		fmt.Println("Read : ", string(data[:message]))
-		read <- string(data[:message])
-		Con <- userConn
+
+		read <- MsgEvent{string(data[:message]), userConn}
 	}
 }

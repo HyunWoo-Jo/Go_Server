@@ -5,6 +5,7 @@ import (
 	"gserver/netMessage"
 	"net"
 	"strconv"
+	"sync"
 )
 
 type GSocket struct {
@@ -16,10 +17,12 @@ type GSocket struct {
 type MainChannel struct {
 	users     map[int]GSocket
 	userCount int
+	sync.Mutex
 }
 
 var (
-	Mchannel = MainChannel{}
+	Mchannel   = MainChannel{}
+	connFindId map[net.Conn]int
 )
 
 func Subscribe(str string, conn net.Conn) {
@@ -30,16 +33,31 @@ func Subscribe(str string, conn net.Conn) {
 	socket.name = strs[1]
 	socket.conn = conn
 	Mchannel.users[socket.id] = socket
+	connFindId[conn] = socket.id
 	fmt.Println("구독 완료")
+}
+
+func Cancel(conn net.Conn) {
+	val, exists := connFindId[conn]
+	if exists {
+		Mchannel.users[val].conn.Close()
+		delete(connFindId, conn)
+		delete(Mchannel.users, val)
+		fmt.Println("구독 취소")
+	}
 }
 
 func OnChannel() {
 	Mchannel.users = make(map[int]GSocket)
+	connFindId = make(map[net.Conn]int)
 	fmt.Println("Channel On")
 	for {
 		select {
 		case sub := <-netMessage.Sub:
 			Subscribe(sub.Msg, sub.Conn)
+			break
+		case cancel := <-netMessage.Cancel:
+			Cancel(cancel.Conn)
 			break
 		}
 	}

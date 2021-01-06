@@ -12,7 +12,7 @@ func OnAccept(ln net.Listener) {
 	for {
 		conn, err := ln.Accept()
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("AcceptErr", err)
 			continue
 		}
 		go netMessage.ReadMessage(conn)
