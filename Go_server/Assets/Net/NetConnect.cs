@@ -16,9 +16,9 @@ public class NetConnect : MonoBehaviour
 
 
     [HideInInspector]
-    public string ip = "220.116.106.202";
+    private string ip = "220.116.108.187";
     [HideInInspector]
-    public int port = 7000;
+    private int port = 7000;
 
     private void Awake() {
         TryConnect();      

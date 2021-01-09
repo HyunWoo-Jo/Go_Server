@@ -2,15 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-delegate string NetEvent(string str);
+public delegate void NetMsg(string str);
 public class NetKernel : MonoBehaviour
 {
     NetConnect nconn;
 
-    event NetEvent msgEventHandler;
+    public event NetMsg msgEvent;
     
     private void Awake() {
         nconn = this.GetComponent<NetConnect>();
+    }
+
+    public void Recive(string str) {
+        msgEvent.Invoke(str);
     }
 
 }

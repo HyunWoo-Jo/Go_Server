@@ -41,7 +41,7 @@ public class NetMessage : MonoBehaviour, INET_SEND
             int nbytes;
             if ((nbytes = netConn.stream.Read(buff, 0, 4096)) > 0) {
                 string msg = Encoding.UTF8.GetString(buff);
-                Debug.Log("RE: " + msg);
+                netKernel.Recive(msg);
             }
         } catch (Exception e) {
             Debug.Log(e);

@@ -12,6 +12,15 @@ public class Chat : MonoBehaviour
 {
     INET_SEND netMessage;
 
+    [SerializeField]
+    private ChatUI chatUI;
+    [SerializeField]
+    private NetKernel kernel;
+
+    private void Awake() {
+        kernel = this.GetComponent<NetKernel>();
+        kernel.msgEvent += RequestMsg;
+    }
 
     IEnumerator Start() {
         netMessage = this.GetComponent<INET_SEND>();
@@ -19,15 +28,13 @@ public class Chat : MonoBehaviour
         SendMsg("Hello");
     }
 
-    
-
 
     void SendMsg(string msg) {
         netMessage.Send(NetSubscribe.id + ":msg:" + msg);
     }
 
     void RequestMsg(string str) {
-        Debug.Log(str);
+        chatUI.ReceiveMsg(str);
     }
 
 }
