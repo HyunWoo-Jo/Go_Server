@@ -24,7 +24,7 @@ public class NetMessage : MonoBehaviour, INET_SEND
     }
 
     public void Send(string msg) { // 메시지 서버에 전송
-        Debug.Log("Send: " + msg);
+        //Debug.Log("Send: " + msg);
         try {
             byte[] buff = Encoding.UTF8.GetBytes(msg);
             netConn.stream.Write(buff, 0, buff.Length);
@@ -41,6 +41,7 @@ public class NetMessage : MonoBehaviour, INET_SEND
             int nbytes;
             if ((nbytes = netConn.stream.Read(buff, 0, 4096)) > 0) {
                 string msg = Encoding.UTF8.GetString(buff);
+                //Debug.Log("Re: " + msg);
                 netKernel.Recive(msg);
             }
         } catch (Exception e) {

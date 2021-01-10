@@ -10,14 +10,31 @@ public class ChatType : MonoBehaviour
 
     private Text _text;
 
+    private List<string> strList = new List<string>();
+
     private void Awake() {
         _text = this.GetComponent<Text>();
     }
 
     public void FilterChat(int type, string str) {
         if (type.Equals(chatType)) {
-            _text.text += str;
+            InputList(str);
+            ShowTextList();
         }
+    }
+
+    private void InputList(string str) {
+        strList.Add(str);
+        if (strList.Count > 20) {
+            strList.RemoveAt(0);
+        }
+    }
+    private void ShowTextList() {
+        string str = "";
+        foreach (var item in strList) {
+            str += str == ""? item : "\n" + item;
+        }
+        _text.text = str;
     }
 
 }

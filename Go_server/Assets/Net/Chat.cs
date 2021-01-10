@@ -20,21 +20,21 @@ public class Chat : MonoBehaviour
     private void Awake() {
         kernel = this.GetComponent<NetKernel>();
         kernel.msgEvent += RequestMsg;
+        
     }
 
-    IEnumerator Start() {
+    void Start() {
         netMessage = this.GetComponent<INET_SEND>();
-        yield return new WaitForSeconds(3f);
-        SendMsg("Hello");
+        chatUI.sendEvent += SendMsg;
     }
 
 
-    void SendMsg(string msg) {
-        netMessage.Send(NetSubscribe.id + ":msg:" + msg);
+    void SendMsg(int type, string msg) {
+        netMessage.Send(string.Format("{0}:msg:{1}:{2}:1", NetSubscribe.id, type, msg));
     }
 
-    void RequestMsg(string str) {
-        chatUI.ReceiveMsg(str);
+    void RequestMsg(string[] strs) {
+        chatUI.ReceiveMsg(Convert.ToInt32(strs[2]), strs[0]+": "+strs[3]);
     }
 
 }

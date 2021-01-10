@@ -53,14 +53,14 @@
     <UnityVersion>2020.2.1f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\Net\ChatType.cs" />
     <Compile Include="Assets\Net\NetMessage.cs" />
     <Compile Include="Assets\Net\Chat.cs" />
     <Compile Include="Assets\Net\NetSubscribe.cs" />
     <Compile Include="Assets\Net\Interface\INET_SEND.cs" />
+    <Compile Include="Assets\Net\ChatUI.cs" />
     <Compile Include="Assets\Net\NetConnect.cs" />
     <Compile Include="Assets\Net\NetKernel.cs" />
-    <Compile Include="Assets\Net\ChatUI.cs" />
-    <Compile Include="Assets\Net\ChatType.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

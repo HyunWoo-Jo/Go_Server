@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void NetMsg(string str);
+public delegate void NetMsg(string []strs);
 public class NetKernel : MonoBehaviour
 {
     NetConnect nconn;
@@ -14,7 +14,12 @@ public class NetKernel : MonoBehaviour
     }
 
     public void Recive(string str) {
-        msgEvent.Invoke(str);
+        string[] strs = str.Split(':');
+        switch (strs[1]) {
+            case "msg":
+                msgEvent.Invoke(strs);
+                break;
+        }
     }
 
 }
