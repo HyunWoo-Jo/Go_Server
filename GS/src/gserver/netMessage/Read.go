@@ -19,8 +19,7 @@ func ReadMessage(userConn net.Conn) {
 			read <- cancel
 			return
 		}
-		fmt.Println("Read : ", string(data[:message]))
-
+		fmt.Printf("Read : %s Size: %d\n", string(data[:message]), len(string(data[:message])))
 		read <- MsgEvent{string(data[:message]), userConn}
 	}
 }

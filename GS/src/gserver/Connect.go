@@ -18,3 +18,4 @@ func OnAccept(ln net.Listener) {
 		go netMessage.ReadMessage(conn)
 	}
 }
+
