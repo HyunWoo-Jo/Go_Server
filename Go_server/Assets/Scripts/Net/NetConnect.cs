@@ -12,7 +12,7 @@ namespace Go.Net {
 
 
         [HideInInspector]
-        private string ip = "220.116.108.187";
+        private string ip = "183.96.117.136";
         [HideInInspector]
         private int port = 7000;
 
