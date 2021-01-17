@@ -15,6 +15,7 @@ namespace Go.Net {
         }
         void Subscribe() {
             netMessage.Send(id + ":sub:" + username);
+
         }
     }
 

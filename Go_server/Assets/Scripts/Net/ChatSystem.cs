@@ -35,7 +35,7 @@ namespace Go.Net {
         }
         // 메시지를 NetMessage를 통해 direct로 전달
         public void SendMsg(string msg) {        
-            netMessage.Send(string.Format("{0}:msg:{1}:{2}:1", NetSubscribe.id, sendChatType.ToString(), msg));
+            netMessage.Send(string.Format("{0}:msg:{1}:{2}:1;", NetSubscribe.id, sendChatType.ToString(), msg));
         }
         // 메시지를 받으면 필터를 실행
         void RequestMsg(string[] strs) {

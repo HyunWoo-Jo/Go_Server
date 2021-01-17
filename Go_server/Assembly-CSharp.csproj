@@ -64,6 +64,9 @@
     <Compile Include="Assets\Scripts\Net\Net.cs" />
     <Compile Include="Assets\Scripts\SingletonObject.cs" />
     <Compile Include="Assets\Scripts\Net\NetKernel.cs" />
+    <Compile Include="Assets\Scripts\SmoothFllow.cs" />
+    <Compile Include="Assets\Player.cs" />
+    <Compile Include="Assets\Users.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -18,6 +18,7 @@ func OnServer() {
 	go netMessage.OnKernel() // 메시지를 분배할 터널 커널 실행
 	go OnAccept(ln)          //접근실행
 	go OnChat()
+	go OnPosition()
 
 	s := ""
 	for {

@@ -6,9 +6,10 @@ import (
 )
 
 var (
-	Msg    = make(chan MsgEvent)
-	Sub    = make(chan MsgEvent)
-	Cancel = make(chan MsgEvent)
+	Msg      = make(chan MsgEvent)
+	Sub      = make(chan MsgEvent)
+	Cancel   = make(chan MsgEvent)
+	Position = make(chan MsgEvent)
 )
 
 type MsgEvent struct {
@@ -26,6 +27,9 @@ func OnKernel() {
 			case "msg":
 				Msg <- msg
 				break
+			case "position":
+				Position <- msg
+				break
 			case "sub":
 				Sub <- msg
 				break
@@ -33,6 +37,7 @@ func OnKernel() {
 				fmt.Println("Cancel")
 				Cancel <- msg
 				break
+
 			}
 			break
 		}

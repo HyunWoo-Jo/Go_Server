@@ -35,6 +35,12 @@ func Subscribe(str string, conn net.Conn) {
 	Mchannel.users[socket.id] = socket
 	connFindId[conn] = socket.id
 	fmt.Println("구독 완료")
+	for userId, _ := range Mchannel.users {
+		fmt.Println(userId)
+		user := strconv.Itoa(userId) + ":sub:1;"
+		go broadcastMsg(user)
+	}
+
 }
 
 func Cancel(conn net.Conn) {
@@ -44,6 +50,8 @@ func Cancel(conn net.Conn) {
 		delete(connFindId, conn)
 		delete(Mchannel.users, val)
 		fmt.Println("구독 취소")
+		str := strconv.Itoa(val) + ":cancel:1;"
+		go broadcastMsg(str)
 	}
 }
 

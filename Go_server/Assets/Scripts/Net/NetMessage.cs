@@ -15,6 +15,7 @@ namespace Go.Net {
             try {
                 byte[] buff = Encoding.UTF8.GetBytes(msg);
                 Net.instance.connect.stream.Write(buff, 0, buff.Length);
+                Debug.Log(msg);
             } catch (Exception e) {
                 Debug.Log(e);
             }
@@ -24,12 +25,14 @@ namespace Go.Net {
             try {
                 if (!Net.instance.connect.stream.DataAvailable) return;
                 NetworkStream stream = Net.instance.connect.stream;
-                byte[] buff = new byte[stream.ReadByte()];
-                
+
+                byte[] buff = new byte[4096];
                 int nbytes;
                 if ((nbytes = Net.instance.connect.stream.Read(buff, 0, buff.Length)) > 0) {
+                    Debug.Log(nbytes);
                     string msg = Encoding.UTF8.GetString(buff);
-                    Net.instance.kernel.Recive(msg); 
+                    Net.instance.kernel.Recive(msg);
+                    Debug.Log(msg);
                 } 
             } catch (Exception e) {
                 Debug.Log(e);

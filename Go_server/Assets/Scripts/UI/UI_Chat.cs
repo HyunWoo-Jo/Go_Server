@@ -9,6 +9,7 @@ namespace Go.UI {
     public class UI_Chat : UI_Popup {
         [SerializeField]
         private InputField sendInputField;
+        [SerializeField]
         private Text[] inputFieldText;
 
         public Dropdown dropdown;
@@ -18,10 +19,6 @@ namespace Go.UI {
 
         public Action<string> sendHandler;
         public bool isSend = true;
-
-        private void Awake() {
-            inputFieldText = sendInputField.GetComponentsInChildren<Text>();
-        }
 
         private void Update() {
             if (!isCreation) return;

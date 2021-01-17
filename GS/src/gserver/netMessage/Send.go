@@ -12,5 +12,4 @@ func SendMessage(userConn net.Conn, message string) {
 	if err != nil {
 		fmt.Println("send err ", err)
 	}
-	fmt.Println(len([]byte(message)))
 }
